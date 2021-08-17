@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="base_global_planner" default="navfn/NavfnROS" />
+  <arg name="base_local_planner" default="dwa_local_planner/DWAPlannerROS" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- <remap from="/cmd_vel" to="/omnidrive/cmd_vel_twist"/> -->
+    <remap from="/cmd_vel" to="/base_controller/command"/>
+    
+    <param name="base_global_planner" value="$(arg base_global_planner)" />
+    <param name="base_local_planner" value="$(arg base_local_planner)" />
+    
+    <rosparam file="$(find urobosim_ros_config)/config/move_base/move_base_params.yaml" command="load" />
+    
+    <!-- observation sources located in costmap_common.yaml -->
+    <rosparam file="$(find urobosim_ros_config)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find urobosim_ros_config)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+
+    <!-- local costmap, needs size -->
+    <rosparam file="$(find urobosim_ros_config)/config/move_base/local_costmap_params.yaml" command="load" />
+
+    <!-- static global costmap, static map provides size -->
+    <rosparam file="$(find urobosim_ros_config)/config/move_base/global_costmap_params.yaml" command="load" />
+
+  </node>
+
+</launch>

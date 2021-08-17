@@ -1,0 +1,8 @@
+# Origin in https://github.com/K4R-IAI/iai_donbot_unreal/blob/master/config/costmap_global_params.yaml
+#
+global_costmap:
+
+  plugins:
+  - {name: static,                  type: "costmap_2d::StaticLayer"}
+  - {name: obstacles_laser,         type: "costmap_2d::VoxelLayer"}
+  - {name: inflation,               type: "costmap_2d::InflationLayer"}
