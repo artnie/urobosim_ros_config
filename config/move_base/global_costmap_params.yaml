@@ -1,6 +1,12 @@
 # Origin in https://github.com/K4R-IAI/iai_donbot_unreal/blob/master/config/costmap_global_params.yaml
 #
 global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  static_map: true
+  
+
 
   plugins:
   - {name: static,                  type: "costmap_2d::StaticLayer"}

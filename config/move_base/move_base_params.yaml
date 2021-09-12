@@ -2,14 +2,14 @@
 #
 DWAPlannerROS:
   # Robot configuration parameters  
-  acc_lim_x: 2.5
-  acc_lim_y: 2.5
-  acc_lim_th: 3.2
+  acc_lim_x: 0.5    #2.5
+  acc_lim_y: 0.5    #2.5
+  acc_lim_th: 0.2   #3.2
 
-  max_vel_x: 0.5
-  min_vel_x: -0.5
-  max_vel_y: 0.5
-  min_vel_y: -0.5
+  max_vel_x: 0.5    #0.5
+  min_vel_x: -0.5   #-0.5
+  max_vel_y: 0.5    #0.5
+  min_vel_y: -0.5   #-0.5
 
   max_vel_trans: 0.5
   min_vel_trans: 0.1
@@ -17,21 +17,83 @@ DWAPlannerROS:
   min_vel_theta: 0.2
 
   # Trajectory Scoring Parameters
-  path_distance_bias: 64.0      # 64.0   - weighting for how much it should stick to the global path plan
+  path_distance_bias: 32.0      # 64.0   - weighting for how much it should stick to the global path plan
   goal_distance_bias: 24.0      # 24.0   - wighting for how much it should attempt to reach its goal
   occdist_scale: 0.01           # 0.01   - weighting for how much the controller should avoid obstacles
   forward_point_distance: 0.325 # 0.325  - how far along to place an additional scoring point
   stop_time_buffer: 0.2         # 0.2    - amount of time a robot must stop in before colliding for a valid traj.
+  oscillation_reset_dist: 0.05
   scaling_speed: 0.25           # 0.25   - absolute velocity at which to start scaling the robot's footprint
   max_scaling_factor: 0.2       # 0.2    - how much to scale the robot's footprint when at speed.
 
-  # Goal Tolerance Parameters
-  yaw_goal_tolerance: 0.1
-  xy_goal_tolerance: 0.1
-  latch_xy_goal_tolerance: false
-    
-  sim_time: 0.5
 
+
+  # Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.05
+  xy_goal_tolerance: 0.2
+  latch_xy_goal_tolerance: false # false
+    
+  sim_time: 1.7
+  
+  rot_stopped_vel: 0.01
+  trans_stopped_vel: 0.01
+  
+  vx_samples: 3
+  vy_samples: 10
+  vtheta_samples: 20
+  
+  #debugging
+  publish_traj_pc : true
+  publish_cost_grid_pc: true
+  
+  
 NavfnROS:
   allow_unknown: true # Specifies whether or not to allow navfn to create plans that traverse unknown space.
   default_tolerance: 0.1 # A tolerance on the goal point for the planner.
+  
+
+shutdown_costmaps: false
+
+controller_frequency: 5.0
+controller_patience: 3.0
+planner_frequency: 5.0
+planner_patience: 5.0
+oscillation_timeout: 10.0
+oscillation_distance: 0.5
+footprint_padding: 0.015
+clearing_radius: 0.59
+
+recovery_behavior_enabled: true
+
+recovery_behaviors:
+  - name: 'super_conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'aggressive_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'move_slow_and_clear'
+    type: 'move_slow_and_clear/MoveSlowAndClear'
+#  #- name: 'super_conservative_reset2'
+#    #type: 'clear_costmap_recovery/ClearCostmapRecovery'
+#  #- name: 'conservative_reset2'
+#    #type: 'clear_costmap_recovery/ClearCostmapRecovery'
+#  #- name: 'aggressive_reset2'
+#    #type: 'clear_costmap_recovery/ClearCostmapRecovery'
+#  #- name: 'clearing_rotation2'
+#    #type: 'rotate_recovery/RotateRecovery'
+
+super_conservative_reset:
+  reset_distance: 5.0
+
+conservative_reset:
+  reset_distance: 3.0
+
+aggressive_reset:
+  reset_distance: 1.84
+
+move_slow_and_clear:
+  clearing_distance: 0.5
+  limited_trans_speed: 0.25
+  limited_rot_speed: 0.45
+  limited_distance: 0.3
