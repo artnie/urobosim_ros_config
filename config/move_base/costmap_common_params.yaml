@@ -10,11 +10,12 @@ obstacle_range: 5
 raytrace_range: 6
 footprint: [[-0.325, -0.325], [-0.325, 0.325], [0.325, 0.325], [0.46, 0.0], [0.325, -0.325]]
 #robot_radius: ir_of_robot
+transform_tolerance: 0.5
 
 inflation:
   inflation_radius: 0.6
 
 obstacles_laser:
   observation_sources: base_scan
-  base_scan: {sensor_frame: base_laser_link, topic: /base_scan, data_type: LaserScan, expected_update_rate: 0.2,
-             observation_persistence: 0.0, marking: false, clearing: true, min_obstacle_height: -0.10, max_obstacle_height: 2.0}
+  base_scan: {sensor_frame: base_laser_link, topic: /base_scan, data_type: LaserScan, expected_update_rate: 3.0,
+             observation_persistence: 0.0, marking: true, clearing: true, min_obstacle_height: -0.10, max_obstacle_height: 2.0}
